@@ -1,7 +1,55 @@
 {% extends "base.html" %}
 
-
 {% block title %}about us{% endblock title %}
+
 {% block body %}
- this is my about us
+{% load static %}
+<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="overlay">
+                <img src="{% static 'img/3.jpg' %}" class="d-block w-100" style="width: 100%; height: 100vh;">
+                <div class="text-overlay "  style="width: 70%; height: 80vh;">
+
+                  <h1>Welcome to Your Ice Cream Shop</h1>
+        <p>At Your Ice Cream Shop, we turn moments into memories with our delightful and creamy creations. Founded in 2064, our journey began with a simple dream—to share the joy of exceptional ice cream with our community.</p>
+        <h2>Craftsmanship and Quality</h2>
+        <p>Every scoop at Your Ice Cream Shop Name is a result of meticulous craftsmanship and a commitment to quality. Our ice cream is made with love, attention to detail, and a dash of creativity.</p>
+        <h2>Local Flavors, Global Inspiration</h2>
+        <p>We draw inspiration from both local traditions and global culinary trends, bringing you a diverse menu that caters to every palate.</p>
+
+        <h2>Community Engagement</h2>
+        <p>At Your Ice Cream Shop, we believe in giving back to the community. We actively engage with local events, support charitable causes, and strive to create a positive impact beyond the walls of our shop.</p>
+
+        <h2>Visit Us</h2>
+        <p>Come join us at Mulitple locations all over India and indulge in the joy of premium ice cream. We invite you to savor the sweetness, create lasting memories, and be a part of our ever-growing ice cream family.</p>
+
+        <p>Thank you for being a part of our delicious journey!</p>
+        <p>Your Ice Cream Shop</p>
+                   
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .overlay {
+        position: relative;
+    }
+
+    .text-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.5); 
+        color: white;
+        padding: 20px;
+        text-align: center;
+    }
+</style>
+
 {% endblock body %}
