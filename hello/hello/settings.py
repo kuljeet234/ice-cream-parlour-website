@@ -129,5 +129,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 STATICFILES_DIRS = [
     BASE_DIR / "static"
-   
+
 ]
+
+
+# Map Django's "error" message level to Bootstrap's "danger" alert class
+# so {{ message.tags }} works with the alert-{{ tag }} pattern in templates.
+from django.contrib.messages import constants as message_constants
+
+MESSAGE_TAGS = {
+    message_constants.ERROR: "danger",
+}
