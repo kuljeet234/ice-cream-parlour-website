@@ -1,33 +1,50 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, redirect
 
-# Create your views here.
-def sp (requests):
-    #return HttpResponse("this is hompage")
-  
-    return render(requests, 'sp.html')
+from .models import ContactSubmission, IceCream, Order
 
-def about (requests):
-    #return HttpResponse("well i promised you to start shekhu and pops in our early 20s so here i am le kar hi diya finally apna sapna poora i love you")
-    return render(requests, 'about us.html')
 
-def home (requests):
-    #return HttpResponse("well i promised you to start shekhu and pops in our early 20s so here i am le kar hi diya finally apna sapna poora i love you")
-    return render(requests, 'home.html')
+def sp(request):
+    return render(request, 'sp.html')
 
-def services (requests):
-    #return HttpResponse("this is services page")
-    return render(requests, 'services.html')
 
-def contact (requests):
-    #return HttpResponse("this is contact page")
+def about(request):
+    return render(request, 'about us.html')
 
-    return render(requests, 'contact.html')
 
-def ourreasontostart (requests):
-    return render(requests, 'ourreasontostart.html')
+def home(request):
+    """Home shows the available menu so visitors land on something live."""
+    return render(request, 'home.html', {"menu": IceCream.objects.filter(is_available=True)})
 
-def trackorders (requests):
-   return render(requests, 'trackorders.html')
 
-def orders (requests):
-   return render(requests, 'orders.html')
+def services(request):
+    return render(request, 'services.html')
+
+
+def contact(request):
+    """Render the contact page; persist a ContactSubmission on POST."""
+    if request.method == "POST":
+        ContactSubmission.objects.create(
+            name=request.POST.get("name", "").strip()[:120],
+            email=request.POST.get("email", "").strip()[:254],
+            message=request.POST.get("message", "").strip()[:5000],
+        )
+        return redirect("contact")
+    return render(request, 'contact.html')
+
+
+def ourreasontostart(request):
+    return render(request, 'ourreasontostart.html')
+
+
+def trackorders(request):
+    """Look up an order by tracking_id from the ?id=... query param."""
+    tracking_id = request.GET.get("id", "").strip()
+    order = None
+    if tracking_id:
+        order = Order.objects.filter(tracking_id=tracking_id).first()
+    return render(request, 'trackorders.html', {"order": order, "tracking_id": tracking_id})
+
+
+def orders(request):
+    """List every order, newest first."""
+    return render(request, 'orders.html', {"orders": Order.objects.select_related("ice_cream").all()})
