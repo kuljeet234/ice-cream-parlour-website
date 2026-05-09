@@ -1,6 +1,8 @@
-from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.shortcuts import redirect, render
 
-from .models import ContactSubmission, IceCream, Order
+from .forms import ContactForm
+from .models import IceCream, Order
 
 
 def sp(request):
@@ -21,15 +23,13 @@ def services(request):
 
 
 def contact(request):
-    """Render the contact page; persist a ContactSubmission on POST."""
-    if request.method == "POST":
-        ContactSubmission.objects.create(
-            name=request.POST.get("name", "").strip()[:120],
-            email=request.POST.get("email", "").strip()[:254],
-            message=request.POST.get("message", "").strip()[:5000],
-        )
+    """Render the contact page; persist a validated ContactSubmission on POST."""
+    form = ContactForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "Thanks — we'll be in touch.")
         return redirect("contact")
-    return render(request, 'contact.html')
+    return render(request, 'contact.html', {"form": form})
 
 
 def ourreasontostart(request):
